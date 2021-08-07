@@ -3,7 +3,7 @@
 
 ## Task2 Results:
 
-#### * Created 2 EC2 Instances on a VPC
+#### * Created two EC2 Instance t2.micro
 ![Instances](/Task2/img/instances.png)
 #### #2. Explore AWS Billing for checking current costs.
 #### #3. Create two EC2 Instance t2.micro with different operating systems (Amazon linux / Ubuntu ...). Try to stop them, restart, delete, recreate.
