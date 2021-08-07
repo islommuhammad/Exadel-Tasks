@@ -1,0 +1,40 @@
+ISLOM-PC+Islom@Islom-PC MINGW64 ~/Desktop/Exadel (master)
+$ git log
+commit 251ce6e1582ad895fb164d58e295f0b1b318c7c9 (HEAD -> master, origin/master)
+Merge: 846d82d 058fbdd
+Author: islommuhammad <salomshox@gmail.com>
+Date:   Tue Aug 3 09:04:07 2021 +0500
+
+    Merge pull request #2 from islommuhammad/dev
+
+    Merging dev branch to master
+
+commit 058fbdd3b862f971361f666f0e35af1828c7e789 (origin/dev, dev)
+Merge: 3b3d0ff abeee93
+Author: islommuhammad <salomshox@gmail.com>
+Date:   Tue Aug 3 09:03:33 2021 +0500
+
+    Merge pull request #1 from islommuhammad/islommuhammad-new_feature
+
+    Merging islommuhammad-new_feature to dev
+
+commit 3b3d0ff263dfe0dcf330aec4b4514550b55ea235
+Author: islommuhammad <salomshox@gmail.com>
+Date:   Tue Aug 3 09:01:25 2021 +0500
+
+    Removing unused file
+
+commit abeee9391290bcee9b350d99629ee7fc554ac010 (origin/islommuhammad-new_feature, islommuhammad-new_feature)
+Author: islommuhammad <salomshox@gmail.com>
+Date:   Tue Aug 3 09:00:10 2021 +0500
+
+    README.md added
+
+commit 846d82d4e9b1cc918c1ae466c5ec351ce9c42b4e
+Author: islommuhammad <salomshox@gmail.com>
+Date:   Tue Aug 3 08:57:32 2021 +0500
+
+    Initial commit
+
+
+
