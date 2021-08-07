@@ -8,9 +8,9 @@
 </head>
 <body onload="script();">
     <h1>HELLO WORLD!</h1>
- <p id="OS"></p>
 <p><?php echo("This server is running on: ".PHP_OS);?></p>
 <p><?php echo php_uname();?></p>
+<strong>Your system is: </strong><p id="OS"></p>
 <script>
     HTMLDocument.prototype.e = document.getElementById;
     var os = document.e("OS");
