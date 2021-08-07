@@ -62,4 +62,8 @@
 
 
 ## EXTRA: 
-### I will do Extra Task soon...
+### #1. Created one more instance Debian 
+### #2. Added two inbound rule. First one for HTTP, second one for ICMP
+![Rules](/Task2/img/debian-inbound-rules.png)
+### #3. Created a bash script. Script file is: installweb.sh
+![Script](/Task2/img/installweb-script.png)
