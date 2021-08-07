@@ -51,15 +51,15 @@
     </html>
  
 
-#### #8. I added one more new Inbound rule for opening http port 80 in Ubuntu instance and checked it in my browser;
+#### #8. I added one more new Inbound rule for access to http port 80 in Ubuntu instance and checked it in my browser;
 
 ![Web rule](/Task2/img/web-rule.png)
 
 ![Web page](/Task2/img/web-page.png)
 
-##### - I checked up the web page in AWS Linux instance which not installed web server.
+#####  I checked up the web page in AWS Linux instance which not installed web server.
 ![Web page](/Task2/img/lynx.png)
 
 
 ## EXTRA: 
-### I will Extra Task soon...
+### I will do Extra Task soon...
