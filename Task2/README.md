@@ -1,9 +1,10 @@
 # Task 2: AWS Cloud
 
 
-## Tasks:
+## Task2 Results:
 
-#### #1. Sign up for AWS, familiarize yourself with the basic elements of the AWS Home Console GUI.
+#### * Created 2 EC2 Instances on a VPC
+![Instances](/Task2/img/instances.png)
 #### #2. Explore AWS Billing for checking current costs.
 #### #3. Create two EC2 Instance t2.micro with different operating systems (Amazon linux / Ubuntu ...). Try to stop them, restart, delete, recreate.
 #### #4. Make sure there is an SSH connection from your host to the created EC2. What IP EC2 used for it?
