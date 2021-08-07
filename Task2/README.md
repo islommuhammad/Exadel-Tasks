@@ -62,4 +62,16 @@
 
 
 ## EXTRA: 
-### I will do Extra Task soon...
+### #1. Created one more instance Debian 
+### #2. Added two inbound rule. First one for ICMP, second one for HTTP
+![Rules](/Task2/img/debian-inbound-rules.png)
+### #3. Created a bash script. Script file is: installweb.sh
+![Script](/Task2/img/installweb-script.png)
+
+### #4. Checked web server in my browser
+![Debian web page](/Task2/img/debian-web-page.png)
+### #5. Generated new SSH key pair on Debian and shared with AWS Linux
+![Debian key pair](/Task2/img/ssh-keygen-debian.png)
+
+### #5. Successfully login to Debian from AWS Linux
+![Entering to Debian](/Task2/img/entering-to-debian.png)
