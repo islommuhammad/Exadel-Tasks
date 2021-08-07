@@ -15,18 +15,12 @@ AWS Linux2's public ip is: 3.125.119.88
 #### #4. I added new Inbound rule for ping command in both instances.
 ![Inbound rule](/Task2/img/ping-rule.png)
 #### #5. Generated new SSH key pairs in both instances and shered their public keys each other.
-<<<<<<< HEAD
 ##### Checked up ping command in both server.
 ![Inbound rule](/Task2/img/AWS-Linux-ping.png)
 
 ![Inbound rule](/Task2/img/Ubuntu-ping.png)
 
 
-=======
-Checked up ping command in both server.
-![Inbound rule](/Task2/img/AWS-Linux-ping.png)
-![Inbound rule](/Task2/img/Ubuntu-ping.png)
->>>>>>> a45f69941a814d5ba0b708f753df4678c7c1c4a3
  Make sure is an ping and SSH passed from one instance to another and vice versa. Configure SSH connectivity between instances using SSH keys.
 #### #6. Install web server (nginx/apache) to one instance;
 ##### - Create web page with text “Hello World” and information about OS version;
