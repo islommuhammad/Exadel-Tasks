@@ -35,4 +35,4 @@
 #### git branch -d islommuhammad-new_feature
 #### git push origin --delete islommuhammad-new_feature
 ### #14. Add all used command to the git_commands.md file in the dev branch.
-#### nano git_commands.ms
+#### nano git_commands.md
