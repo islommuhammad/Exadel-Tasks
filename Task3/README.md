@@ -2,4 +2,4 @@
 
 ## Task steps
 ### #1. I created new AWS profile on my PC
-![AWS Profile](Task3/img/AWS-profile.png) 
+![AWS Profile](img/AWS-profile.png) 
