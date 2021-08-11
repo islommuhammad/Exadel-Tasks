@@ -14,9 +14,9 @@ module "vpc" {
 }
 
 
-resource "aws_security_group" "allow_ssh_http_https_pub" {
-  name        = "allow_ssh"
-  description = "Allow SSH inbound traffic"
+resource "aws_security_group" "allow_pub" {
+  name        = "allow_pub"
+  description = "Allow SSH,HTTP,HTTPS, ICMP inbound traffic"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -55,20 +55,41 @@ resource "aws_security_group" "allow_ssh_http_https_pub" {
   }
 
   tags = {
-    Name = "allow_ssh_pub"
+    Name = "allow_pub"
   }
 }
 
 
-resource "aws_security_group" "allow_ssh_priv" {
-  name        = "allow_ssh_priv"
-  description = "Allow SSH inbound traffic"
+resource "aws_security_group" "allow_priv" {
+  name        = "allow_priv"
+  description = "Allow SSH, ICMP, HTTP,HTTPS inbound traffic"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
     description = "SSH only from internal VPC clients"
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    description = "ICMP only from internal VPC clients"
+    from_port   = 8
+    to_port     = 0
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    description = "HTTP only from internal VPC clients"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    description = "HTTPS only from internal VPC clients"
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]
   }
@@ -81,6 +102,6 @@ resource "aws_security_group" "allow_ssh_priv" {
   }
 
   tags = {
-    Name = "allow_ssh_priv"
+    Name = "allow_priv"
   }
 }
