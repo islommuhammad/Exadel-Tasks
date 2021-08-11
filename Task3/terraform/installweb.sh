@@ -1,6 +1,8 @@
+#!/bin/bash
 sudo apt update
 sudo apt install apache2 -y
 sudo apt install php -y
+sudo rm /var/www/html/index.html
 
 echo "<!DOCTYPE html>
 <html lang=\"en\">
