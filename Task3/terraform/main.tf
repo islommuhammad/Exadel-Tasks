@@ -97,15 +97,16 @@ resource "aws_eip" "one" {
   depends_on = [aws_internet_gateway.gw]
 }
 
-
+#### Ubuntu server
 resource "aws_instance" "web-server" {
   ami           = "ami-0b1deee75235aa4bb"
   instance_type = "t2.micro"
-  key_name = "ubuntu-key"
+  key_name      = "webserver-key"
   network_interface {
     device_index = 0
     network_interface_id = aws_network_interface.web-server-nic.id
   }
+  user_data     = "${file("installweb.sh")}"
   tags = {
     Name = "Ubuntu-server"
   }
