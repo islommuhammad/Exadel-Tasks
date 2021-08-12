@@ -145,7 +145,25 @@
 ### #2. Made SSH connection from Ubuntu to CentOS
     ssh -i centos-key.pem centos@10.0.1.168
 
-### #3. On CentOS server installed Ngnix and created a web page with the text “Hello World” and information about the current version of the operating system.
+### #3. Made SSH tunnel on CentOS for install Nginx
+    ssh -i webserver-key.pem -NTf -D 10.0.1.168:1080 ubuntu@10.0.2.118
+
+### #4. In yum config file added proxy settings
+    [main]
+    cachedir=/var/cache/yum/$basearch/$releasever
+    keepcache=0
+    debuglevel=2
+    logfile=/var/log/yum.log
+    exactarch=1
+    obsoletes=1
+    gpgcheck=1
+    plugins=1
+    installonly_limit=5
+    bugtracker_url=http://bugs.centos.org/set_project.php?project_id=23&ref=http://bugs.centos.org/bug_re$
+    distroverpkg=centos-release
+    proxy=socks5h://localhost:1080
+
+### #5. Installed Ngnix and created a web page with the text “Hello World” and information about the current version of the operating system.
 
 ##### We can access to this page only from Ubuntu server
 
