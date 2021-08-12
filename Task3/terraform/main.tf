@@ -39,7 +39,6 @@ most_recent = true
 
 module "networking" {
   source    = "./modules/networking"
-  #namespace = var.namespace
 }
 
 #### Ubuntu server
@@ -66,7 +65,7 @@ resource "aws_instance" "web-server" {
     inline = ["chmod 400 ~/centos-key.pem"]
 
     connection {
-     type        = "ssh"
+     type         = "ssh"
       user        = "ubuntu"
       private_key = file("webserver-key.pem")
       host        = self.public_ip
