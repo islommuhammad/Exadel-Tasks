@@ -26,7 +26,7 @@
 
 ### #4. Created two AWS instances
 * Ubuntu on public subnet
-#### Ubuntu server
+
     resource "aws_instance" "web-server" {
     ami                     = data.aws_ami.latest-ubuntu.id
     instance_type           = "t2.micro"
@@ -64,6 +64,7 @@
     }
 
 * Centos on private subnet
+
     resource "aws_instance" "centos-server" {
     ami                         = data.aws_ami.centos.id
     instance_type               = "t2.micro"
