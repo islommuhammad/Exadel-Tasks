@@ -20,3 +20,60 @@
     single_nat_gateway               = true
   
 }
+### #3. Created two AWS security groups
+* Public: allowed  SSH,HTTP, HTTPS, ICMP inbound traffic over interet
+* Private: allowed  SSH,HTTP, HTTPS, ICMP inbound traffic over private network
+
+### #4. Created two AWS instances
+* Ubuntu on public subnet
+#### Ubuntu server
+    resource "aws_instance" "web-server" {
+    ami                     = data.aws_ami.latest-ubuntu.id
+    instance_type           = "t2.micro"
+    key_name                = "webserver-key"
+    subnet_id               = module.networking.vpc.public_subnets[0]
+    vpc_security_group_ids  = [module.networking.sg_pub_id]
+    user_data               = "${file("installweb.sh")}"
+
+    provisioner "file" {
+        source      = "./centos-key.pem"
+        destination = "/home/ubuntu/centos-key.pem"
+
+        connection {
+        type        = "ssh"
+        user        = "ubuntu"
+        private_key = file("webserver-key.pem")
+        host        = self.public_ip
+        }
+    }
+    provisioner "remote-exec" {
+        inline = ["chmod 400 ~/centos-key.pem"]
+
+        connection {
+        type        = "ssh"
+        user        = "ubuntu"
+        private_key = file("webserver-key.pem")
+        host        = self.public_ip
+        }
+
+    }
+
+    tags = {
+        Name = "Ubuntu-server"
+    }
+    }
+
+* Centos on private subnet
+    resource "aws_instance" "centos-server" {
+    ami                         = data.aws_ami.centos.id
+    instance_type               = "t2.micro"
+    associate_public_ip_address = false
+    key_name                    = "centos-key"
+    subnet_id                   = module.networking.vpc.private_subnets[0]
+    vpc_security_group_ids      = [module.networking.sg_priv_id]
+    
+    tags = {
+        Name = "CentOS7-server"
+    }
+
+    }
