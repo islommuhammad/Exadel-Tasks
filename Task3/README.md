@@ -25,7 +25,7 @@
 * Private: allowed  SSH,HTTP, HTTPS, ICMP inbound traffic over private network
 
 ### #4. Created two AWS instances
-* Ubuntu on public subnet
+#### Ubuntu on public subnet
 
     resource "aws_instance" "web-server" {
     ami                     = data.aws_ami.latest-ubuntu.id
@@ -63,7 +63,7 @@
     }
     }
 
-* Centos on private subnet
+#### Centos on private subnet
 
     resource "aws_instance" "centos-server" {
     ami                         = data.aws_ami.centos.id
