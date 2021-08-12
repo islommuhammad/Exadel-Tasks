@@ -44,12 +44,36 @@ module "networking" {
 
 #### Ubuntu server
 resource "aws_instance" "web-server" {
-  ami           = data.aws_ami.latest-ubuntu.id
-  instance_type = "t2.micro"
-  key_name      = "webserver-key"
-  subnet_id     = module.networking.vpc.public_subnets[0]
+  ami                     = data.aws_ami.latest-ubuntu.id
+  instance_type           = "t2.micro"
+  key_name                = "webserver-key"
+  subnet_id               = module.networking.vpc.public_subnets[0]
   vpc_security_group_ids  = [module.networking.sg_pub_id]
-  user_data = "${file("installweb.sh")}"
+  user_data               = "${file("installweb.sh")}"
+
+  provisioner "file" {
+    source      = "./centos-key.pem"
+    destination = "/home/ubuntu/centos-key.pem"
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("webserver-key.pem")
+      host        = self.public_ip
+    }
+  }
+  provisioner "remote-exec" {
+    inline = ["chmod 400 ~/centos-key.pem"]
+
+    connection {
+     type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("webserver-key.pem")
+      host        = self.public_ip
+    }
+
+  }
+
   tags = {
     Name = "Ubuntu-server"
   }
@@ -63,7 +87,7 @@ resource "aws_instance" "centos-server" {
   key_name                    = "centos-key"
   subnet_id                   = module.networking.vpc.private_subnets[0]
   vpc_security_group_ids      = [module.networking.sg_priv_id]
-  #user_data     = "${file("installweb.sh")}"
+  
   tags = {
     Name = "CentOS7-server"
   }
