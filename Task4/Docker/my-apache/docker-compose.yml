@@ -1,0 +1,42 @@
+version: '3'
+services:
+#Web Server
+  webserver:
+    restart: always
+    build: .
+    ports:
+      - "80:80"
+    env_file:
+      - webserver-env/.env
+
+# A Java App
+  java-app:
+    restart: always
+    container_name: java-app
+    image: jetty
+    ports:
+      - "8080:8080"
+    env_file:
+      - java-env/.env 
+    depends_on: 
+      - docker-mysql 
+
+# DB 
+  docker-mysql:
+    restart: always
+    container_name: docker-mysql
+    image: mysql
+    env_file:
+      - db-env/.env
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+
+    ports:
+      - "6033:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root--execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
+  
+  
