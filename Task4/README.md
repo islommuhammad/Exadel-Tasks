@@ -48,7 +48,7 @@
 
     root@ip-10-0-2-118:/home/ubuntu#
 
- ### Extra #2.1 Image with html page used. In the html page written text: \<Username> Sandbox 2021
+ ### Extra #2.1 Image with html page run. In the html page written text: \<Username> Sandbox 2021
     echo "<html><body><h2>islommamatov Sandbox 2021</h2></body></html>" > index.html
     docker run -dit --name my-apache-app -p 80:80 -v "$PWD":/usr/local/apache2/htdocs/ httpd:2.4
 
@@ -75,7 +75,7 @@
     EXPOSE 80
 
 
-### #3.2 Added an environment variable "DEVOPS=<username> 
+### #3.2 Added an environment variable "DEVOPS = \<username> 
      ENV DEVOPS "islommamatov"
 
 ### #3.2.1 To change the environment variable for each restart the container we should write a script. 
@@ -85,7 +85,7 @@
 
 #### Image building
     docker image build -t webserver:latest .
-#### Running the container
+#### Running the container with custom env. variable
     docker run -itd -e DEVOPS="Stive Jobs" --rm -p 80:80 webserver:latest
 
 #### Result: 
@@ -146,7 +146,7 @@
 * Java app run after a successful run of MySQL container 
         depends_on: 
         - docker-mysql
-        
+
 ### EXTRA #5.1. Created env files for each service 
         ...
         env_file:
