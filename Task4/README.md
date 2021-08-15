@@ -143,7 +143,7 @@
 * First image is my webserver image, To run 5 nodes of first image I used "*--scale webserver=5*" keyword
 * Second image is Jetty java app
 * Last image is official MySql image
-* Java app run after a successful run of MySQL container 
+* Java app runs after a successful run of MySQL container 
         depends_on: 
         - docker-mysql
 
@@ -214,3 +214,5 @@
     Creating my-apache_webserver_5 ... done
     Creating docker-mysql          ... done
     Creating java-app              ... done
+
+#### All steps completed
