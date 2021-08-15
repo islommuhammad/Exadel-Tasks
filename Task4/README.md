@@ -86,7 +86,7 @@
 #### Image building
     docker image build -t webserver:latest .
 #### Running the container with custom env. variable
-    docker run -itd -e DEVOPS="Stive Jobs" --rm -p 80:80 webserver:latest
+    docker run -itd -e DEVOPS="Steve Jobs" --rm -p 80:80 webserver:latest
 
 #### Result: 
 !["Devops"](img/devops.png)
