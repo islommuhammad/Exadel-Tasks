@@ -1,0 +1,94 @@
+---
+- hosts: all
+  become: true
+  vars:
+    docker_volume: db_data
+    #docker_network: wordpress_net
+    db_name: db
+    wp_name: wordpress
+    docker_network: wordpress_net
+    #wp_host_port: "{{ lookup('env','WORDPRESS_PORT') | default(8080)}}"
+    wp_container_port: 80
+  
+  tasks:
+    - name: "Create a Volume"
+      docker_volume:
+        name: "{{ docker_volume }}"
+
+    - name: "Create a network"
+      docker_network:
+        name: "{{ docker_network }}"
+
+    - name: Install aptitude
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+ 
+    - name: Docker GPG apt Key Adding
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Adding Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Pull wordpress image
+      docker_image:
+        name: wordpress
+        source: pull
+
+    - name: Pull MySQL image
+      docker_image:
+        name: mysql:5.7
+        source: pull    
+
+
+    - name: Create DB container
+      docker_container:
+        name: "{{ db_name }}"
+        image: mysql:5.7
+        state: started
+        # ports:
+        # - "80:80" 
+        network_mode: "{{ docker_network }}"
+        env:
+          MYSQL_DATABASE: exampledb
+          MYSQL_USER: exampleuser
+          MYSQL_PASSWORD: examplepass
+          MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        volumes:
+          - "{{ docker_volume }}:/var/lib/mysqls:rw"
+        restart_policy: always
+
+
+    - name: Create Wordpress container
+      docker_container:
+        name: "{{ wp_name }}"
+        image: wordpress:latest
+        state: started
+        ports:
+        - "80:80" 
+        restart_policy: always
+        network_mode: "{{ docker_network }}"
+        env:
+          WORDPRESS_DB_HOST: "{{ db_name }}:3306"
+          WORDPRESS_DB_USER: exampleuser
+          WORDPRESS_DB_PASSWORD: examplepass
+          WORDPRESS_DB_NAME: exampledb
+        volumes:
+          - wordpress:/var/www/html
+
+
+
+
