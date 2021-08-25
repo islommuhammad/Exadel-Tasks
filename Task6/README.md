@@ -72,10 +72,33 @@
 
 !["Java Path"](img/agents.png) 
 
-### #3. Created Freestyle project which will show the current date as a result of execution
+### #4. Created Freestyle project which will show the current date as a result of execution
 
 !["Date"](img/shell-date.png)  
 
 **Result**
 
 !["Date result"](img/date.png) 
+
+### #5. Created Pipeline which will execute docker ps -a in docker agent, running on Jenkins master’s Host.
+
+    pipeline {
+        agent any
+        stages {
+            stage("build") {
+                steps {
+            sshagent(credentials: ['Jenkins-server']) {
+                sh '''
+                    ssh -o StrictHostKeyChecking=no -l root 172.17.0.1 docker ps -a
+                
+                '''
+            }
+        }
+            }
+        }
+    }
+
+**Result**
+
+!["Pipeline"](img/pipeline1-result.png) 
+
