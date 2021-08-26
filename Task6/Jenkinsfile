@@ -2,9 +2,9 @@ pipeline {
   agent { dockerfile true }
   stages {
     stage("Build") {
-
-      echo 'Hello world'
-
+      steps {
+        echo 'Hello world'
+      }
     }
     // stage("Deploy") {
     //   steps {
