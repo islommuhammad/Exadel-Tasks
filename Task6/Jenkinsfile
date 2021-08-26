@@ -1,8 +1,10 @@
 pipeline {
-  agent { dockerfile true }
+  agent { dockerfile true 
+  }
   stages {
     stage("Build") {
       steps {
+        git 'https://github.com/islommuhammad/Exadel-Tasks.git'
         echo 'Hello world'
       }
     }
