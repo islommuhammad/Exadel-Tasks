@@ -1,15 +1,17 @@
 pipeline {
-    agent any
-    stages {
-        stage("build") {
-            steps {
-          sshagent(credentials: ['Jenkins-server']) {
-            sh '''
-                ssh -o StrictHostKeyChecking=no -l root 172.17.0.1 docker ps -a
-               
-            '''
-          }
-      }
-        }
+  agent { dockerfile true }
+  stages {
+    stage("Build") {
+
     }
+    // stage("Deploy") {
+    //   steps {
+    //     sshagent(credentials: ['Jenkins-server']) {
+    //       sh '''
+    //         ssh -o StrictHostKeyChecking=no -l root 172.17.0.1 docker ps -a
+    //       '''
+    //     }
+    //   }
+    // }
+  }
 }

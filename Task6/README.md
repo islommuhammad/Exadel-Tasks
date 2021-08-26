@@ -83,22 +83,23 @@
 ### #5. Created Pipeline which will execute docker ps -a in docker agent, running on Jenkins master’s Host.
 
     pipeline {
-        agent any
-        stages {
-            stage("build") {
-                steps {
+      agent any
+      stages {
+        stage("build") {
+          steps {
             sshagent(credentials: ['Jenkins-server']) {
-                sh '''
-                    ssh -o StrictHostKeyChecking=no -l root 172.17.0.1 docker ps -a
-                
-                '''
+              sh '''
+                ssh -o StrictHostKeyChecking=no -l root 172.17.0.1 docker ps -a
+              '''
             }
+          }
         }
-            }
-        }
+      }
     }
+
 
 **Result**
 
 !["Pipeline"](img/pipeline1-result.png) 
 
+### #6. 
