@@ -6,7 +6,7 @@ node('main') {
     stage('Build Docker Image'){
       sh 'docker build -t islommamatov/apache:latest Task6'
     }
-    stage('Run Docker Image'){
+    stage('Run Docker Container'){
       withCredentials([string(credentialsId: 'Pwd', variable: 'Pwd')]) {
           sh "docker run -itd -e PASSWORD=${Pwd} --rm -p 88:80 islommamatov/apache:latest"
         }
