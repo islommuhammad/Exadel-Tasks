@@ -7,7 +7,7 @@ node('main') {
       sh 'docker build -t islommamatov/apache:latest Task6'
     }
     stage('Run Docker Image'){
-      withCredentials([string(credentialsId: 'dockerhub-password', variable: 'Pwd')]) {
+      withCredentials([string(credentialsId: 'Pwd', variable: 'Pwd')]) {
           sh "docker run --env PASSWORD= ${Pwd} --name myApache islommamatov/apache:latest"
         }
     }
