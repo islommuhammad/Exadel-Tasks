@@ -1,0 +1,15 @@
+
+node('main') {
+    stage('Git checkout'){
+     git branch: 'dev', credentialsId: 'github-ssh-key', url: 'git@github.com:islommuhammad/Exadel-Tasks.git'
+    }
+    stage('Build Docker Image'){
+      sh 'docker build -t islommamatov/apache:latest Task6'
+    }
+    stage('Push Docker Image'){
+      withCredentials([string(credentialsId: 'dockerhub-password', variable: 'dockerHubPwd')]) {
+          sh "docker login -u islommamatov -p ${dockerHubPwd}"
+        }
+      sh 'docker push islommamatov/apache:latest '
+    }
+}

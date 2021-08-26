@@ -102,4 +102,43 @@
 
 !["Pipeline"](img/pipeline1-result.png) 
 
-### #6. 
+### #6. Created Pipeline, which will build artefact using Dockerfile directly from the github repo
+**Task script**
+
+    node('main') {
+        stage('Git checkout'){
+        git branch: 'dev', credentialsId: 'github-ssh-key', url: 'git@github.com:islommuhammad/Exadel-Tasks.git'
+        }
+        stage('Build Docker Image'){
+        sh 'docker build -t islommamatov/apache:latest Task6'
+        }
+        stage('Push Docker Image'){
+        withCredentials([string(credentialsId: 'dockerhub-password', variable: 'dockerHubPwd')]) {
+            sh "docker login -u islommamatov -p ${dockerHubPwd}"
+            }
+        sh 'docker push islommamatov/apache:latest '
+        }
+    }
+
+**Result**
+
+!["Pipeline"](img/docker-build.png)
+
+!["Stage"](img/stage-view.png)
+
+### #7. 7. Pass  variable PASSWORD=QWERTY! To the docker container. Variable must be encrypted!!!
+
+node('main') {
+        stage('Git checkout'){
+        git branch: 'dev', credentialsId: 'github-ssh-key', url: 'git@github.com:islommuhammad/Exadel-Tasks.git'
+        }
+        **stage('Build Docker Image'){
+        sh 'docker build -t islommamatov/apache:latest Task6'
+        }**
+        stage('Push Docker Image'){
+        withCredentials([string(credentialsId: 'dockerhub-password', variable: 'dockerHubPwd')]) {
+            sh "docker login -u islommamatov -p ${dockerHubPwd}"
+            }
+        sh 'docker push islommamatov/apache:latest '
+        }
+    }
