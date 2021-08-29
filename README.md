@@ -108,14 +108,19 @@ Tasks:
 EXTRA 1.1. Write bash script for installing Docker. 
 
 2.	Find, download and run any docker container "hello world". (Learn commands and parameters to create/run docker containers.
+
 EXTRA 2.1. Use image with html page, edit html page and paste text: <Username> Sandbox 2021
 
 3.1. Create your Dockerfile for building a docker image. Your docker image should run any web application (nginx, apache, httpd). Web application should be located inside the docker image. 
+
 EXTRA 3.1.1. For creating docker image use clear basic images (ubuntu, centos, alpine, etc.)
+
 3.2. Add an environment variable "DEVOPS=<username> to your docker image 
+
 EXTRA 3.2.1. Print environment variable with the value on a web page (if environment variable changed after container restart - the web page must be updated with a new value)
 
 4. Push your docker image to docker hub (https://hub.docker.com/). Create any description for your Docker image. 
+
 EXTRA 4.1. Integrate your docker image and your github repository. Create an automatic deployment for each push. (The Deployment can be in the “Pending” status for 10-20 minutes. This is normal).
 
 
@@ -124,7 +129,8 @@ EXTRA 4.1. Integrate your docker image and your github repository. Create an aut
 -	second image - any java application;
 -	last image - any database image (mysql, postgresql, mongo or etc.).
 Second container should be run right after a successful run of a database container.
-	EXTRA 5.1. Use env files to configure each service.
+
+EXTRA 5.1. Use env files to configure each service.
 
 
 The task results is the docker/docker-compose files in your GitHub repository
@@ -138,15 +144,18 @@ Important points:
 2. Learn about the advantages and disadvantages of Ansible over other tools.
 3. Become familiar with ansible basics and YAML syntax.
 4. Basics of working with Ansible from the official documentation
+
 EXTRA Read the Jinja2 templating documentation
  
 Tasks:
 Deploy three virtual machines in the Cloud. Install Ansible on one of them (control_plane).
 Ping pong - execute the built-in ansible ping command. Ping the other two machines.
 My First Playbook: write a playbook for installing Docker on two machines and run it.
-       
+
 EXTRA 1. Write a playbook for installing Docker and one of the (LAMP/LEMP stack, Wordpress, ELK, MEAN - GALAXY do not use) in Docker.
+
 EXTRA 2. Playbooks should not have default creds to databases and/or admin panel.
+
 EXTRA 3. For the execution of playbooks, dynamic inventory must be used (GALAXY can be used).
  
 The result of this task will be ansible files in your GitHub.
@@ -178,27 +187,45 @@ EXTRA:
 Tasks:
 1. Zabbix:
 Big brother is watching  ....
+
 1.1 Install on server, configure web and base
+
 1.2 Prepare VM or instances. Install Zabbix agents on previously prepared servers or VM.
+
 EXTRA 1.2.1: Complete this task using ansible
+
 1.3 Make several of your own dashboards, where to output data from your triggers (you can manually trigger it)
+
 1.4 Active check vs passive check - use both types.
+
 1.5 Make an agentless check of any resource (ICMP ping)
+
 1.6 Provoke an alert - and create a Maintenance instruction
+
 1.7 Set up a dashboard with infrastructure nodes and monitoring of hosts and software installed on them
 
 2. ELK:
 Nobody is forgotten and nothing is forgotten.
+
 2.1 Install and configure ELK
+
 2.2 Organize collection of logs from docker to ELK and receive data from running containers
+
 2.3 Customize your dashboards in ELK
+
 EXTRA 2.4: Set up filters on the Logstash side (get separate docker_container and docker_image fields from the message field)
+
 2.5 Configure monitoring in ELK, get metrics from your running containers
+
 2.6 Study features and settings
 
 3. Grafana:
+
 3.1 Install Grafana
+
 3.2 Integrate with installed ELK
+
 3.3 Set up Dashboards
+
 3.4 Study features and settings
 
