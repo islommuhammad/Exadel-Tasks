@@ -1,7 +1,7 @@
 # Task 7: Logging & Monitoring
 
 ## Tasks:
-### 1. Zabbix:
+## 1. Zabbix:
 **Big brother is watching  ....**
 ### 1.1 Install on server, configure web and base
 I installed Zabbix server on a Ubuntu 20.04 host.
@@ -246,3 +246,196 @@ In the active mode, all data processing is performed on the agent, without the i
 ### 1.7 Set up a dashboard with infrastructure nodes and monitoring of hosts and software installed on them
 
 !["Hosts"](img/hosts.png)
+
+
+## 2. ELK:
+
+*Nobody is forgotten and nothing is forgotten.*
+### 2.1 Install and configure ELK
+
+Pulled ELK docker image and run the container
+
+    $ sudo docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -itd --name elk sebp/elk
+
+By default, when starting a container, all three of the ELK services (Elasticsearch, Logstash, Kibana) are started.
+
+!["ELK"](img/elastic.png)
+
+### 2.2 Organize collection of logs from docker to ELK and receive data from running containers
+For organize collection of logs from docker we should install and configure Filebeat
+
+**Filebeat Dockerfile**
+
+    # Dockerfile to illustrate how Filebeat can be used with nginx
+    # Filebeat 7.13.2
+
+    # Build with:
+    # docker build -t filebeat-nginx-example .
+
+    # Run with:
+    # docker run -p 80:80 -it --link <elk-container-name>:elk \
+    #     --name filebeat-nginx-example filebeat-nginx-example
+
+    FROM nginx
+    MAINTAINER Sebastien Pujadas http://pujadas.net
+    ENV REFRESHED_AT 2020-10-02
+
+
+    ###############################################################################
+    #                                INSTALLATION
+    ###############################################################################
+
+    ### install Filebeat
+
+    ENV FILEBEAT_VERSION 7.13.2
+    ENV FILEBEAT_BASE_VERSION 7.13.2
+
+
+    RUN apt-get update -qq \
+    && apt-get install -qqy curl \
+    && apt-get clean
+
+    RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${FILEBEAT_VERSION}-amd64.deb \
+    && dpkg -i filebeat-${FILEBEAT_VERSION}-amd64.deb \
+    && rm filebeat-${FILEBEAT_VERSION}-amd64.deb
+
+
+    ###############################################################################
+    #                                CONFIGURATION
+    ###############################################################################
+
+    ### tweak nginx image set-up
+
+    # remove log symlinks
+    RUN rm /var/log/nginx/access.log /var/log/nginx/error.log
+
+
+    ### configure Filebeat
+
+    # config file
+    ADD filebeat.yml /etc/filebeat/filebeat.yml
+    RUN chmod 644 /etc/filebeat/filebeat.yml
+
+    # CA cert
+    RUN mkdir -p /etc/pki/tls/certs
+    ADD logstash-beats.crt /etc/pki/tls/certs/logstash-beats.crt
+
+    # create template based on filebeat version (assumption: it is the same version as elasticsearch version)
+    RUN filebeat export template --es.version ${FILEBEAT_BASE_VERSION} > /etc/filebeat/filebeat.template.json
+
+    ###############################################################################
+    #                                    DATA
+    ###############################################################################
+
+    ### add dummy HTML file
+
+    COPY html /usr/share/nginx/html
+
+
+    ###############################################################################
+    #                                    START
+    ###############################################################################
+
+    ADD ./start.sh /usr/local/bin/start.sh
+    RUN chmod +x /usr/local/bin/start.sh
+    CMD [ "/usr/local/bin/start.sh" ]
+
+
+**Example Filebeat set-up and configuration**
+
+    output:
+    logstash:
+        enabled: true
+        hosts:
+        - elk:5044
+        timeout: 15
+        ssl:
+        certificate_authorities:
+            - /etc/pki/tls/certs/logstash-beats.crt
+
+    filebeat:
+    inputs:
+        -
+        paths:
+            - /var/log/syslog
+            - /var/log/auth.log
+        document_type: syslog
+        -
+        paths:
+            - "/var/log/nginx/*.log"
+        fields_under_root: true
+        fields:
+            type: nginx-access
+
+**Built an image from the Dockerfile**
+
+    cd nginx-filebeat
+    docker buld . filebeat
+
+**Run the container**
+
+    docker run -itd --name filebeat filebeat
+
+ For forwarding logs from a Docker container to the ELK container on a host, we need to connect the two containers. So, we have to create new network bridge
+
+    docker network create -d bridge elknet
+
+
+Now, we can run log-emitting container
+
+    docker run -p 80:80 -it --network=elknet imageName
+
+
+### 2.3 Customize your dashboards in ELK
+ 
+**Created custom Dashboard**
+
+!["Dashboard"](img/customDash.png)
+
+### 2.5 Configure monitoring in ELK, get metrics from your running containers
+**I configured and installed Docker Metrics using this manual:**
+
+!["Metrics"](img/metrics.png)
+
+**Result:**
+!["Metrics"](img/metrics-dashboard.png)
+
+
+## 3. Grafana: 
+
+## 3.1 Install Grafana
+
+**I installed Grafana as Docker container**
+
+    docker run -d -p 3000:3000 --name grafana grafana/grafana:6.5.0
+
+## 3.2 Integrate with installed ELK
+
+**We will download the logs.jsonl file from the elastic servers:**
+
+    curl -O https://download.elastic.co/demos/kibana/gettingstarted/7.x/logs.jsonl.gz
+
+**Gunzip the file:**
+
+    gunzip logs.jsonl.gz
+
+**And finally, upload to our Elasticsearch instance:**
+
+    curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty' --data-binary @logs.jsonl
+
+
+**Added a datasource of type Elasticsearch**
+
+!["Grafana"](img/grafana.png)
+
+**Datasource tested and saved**
+
+!["Grafana"](img/grafana-test.png)
+
+### 3.3 Set up Dashboards
+
+**I created a new Dashboard**
+
+!["Grafana"](img/grafanaDash.png)
+
+Thank you for your patience! 
